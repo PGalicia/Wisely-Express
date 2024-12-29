@@ -4,6 +4,7 @@ const {
   GraphQLString,
   GraphQLFloat,
   GraphQLInt,
+  GraphQLBoolean,
 } = graphql;
 
 const WishlistType = new GraphQLObjectType({
@@ -16,6 +17,7 @@ const WishlistType = new GraphQLObjectType({
     priority: { type: GraphQLInt },
     targetAmount: { type: GraphQLFloat },
     currentAmount: { type: GraphQLFloat },
+    isComplete: { type: GraphQLBoolean },
   }),
 });
 

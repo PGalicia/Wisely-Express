@@ -23,10 +23,9 @@ const wishlistSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // @TODO: I need to make sure this doesn't exceed the targetAmount
-  currentAmount: {
-    type: Number,
-    default: 0,
+  isComplete: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -7,9 +7,11 @@ const {
   GraphQLString,
   GraphQLInt,
   GraphQLFloat,
+  GraphQLBoolean,
 } = graphql;
 
 const { Wishlist } = require("../models/wishlist");
+const { Budget } = require("../models/budget");
 
 const WishlistType = require("./TypeDefs/WishlistType");
 
@@ -20,10 +22,45 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(WishlistType),
       args: {},
       async resolve(parent, args) {
-        const wishlistList = await Wishlist.find();
-        return wishlistList;
+        // Grab all the uncompleted wishlist items and make sure to sort them by priority first, then targetAmount
+        const wishlistList = await Wishlist.find({ isComplete: false }).sort({ priority: -1, targetAmount: -1 });
+
+        // Grab the current budget
+        let { total = 0 } = await Budget.findOne();
+
+        // Adjust each wishlist item to have the proper amount
+        return wishlistList.map((wishlist) => {
+          const { targetAmount } = wishlist;
+
+          let newCurrentAmount = 0;
+
+          if (total > 0) {
+            if (targetAmount < total) {
+              newCurrentAmount = targetAmount;
+              total -= targetAmount;
+            } else {
+              newCurrentAmount = total;
+              total = 0;
+            }
+          }
+
+          return {
+            ...wishlist.toObject(),
+            id: wishlist._id.toString(), // toObject() removes virtuals like ids so I need to explicitly include it
+            currentAmount: newCurrentAmount,
+          }
+        });
       },
-    }
+    },
+    getBudget: {
+      type: GraphQLFloat,
+      args: {},
+      async resolve(parent, args) {
+        const { total = 0 } = await Budget.findOne();
+
+        return total;
+      },
+    },
   },
 });
 
@@ -47,10 +84,6 @@ const Mutation = new GraphQLObjectType({
           defaultValue: 3
         },
         targetAmount: { type: GraphQLFloat },
-        currentAmount: {
-          type: GraphQLFloat,
-          defaultValue: 0
-        },
       },
       async resolve(parent, args, req) {
         const newWishlist = new Wishlist({
@@ -59,12 +92,12 @@ const Mutation = new GraphQLObjectType({
           itemDescription: args.itemDescription,
           priority: args.priority,
           targetAmount: args.targetAmount,
-          currentAmount: args.currentAmount,
+          isComplete: false
         });
 
         await newWishlist.save();
 
-        return newWishlist;;
+        return newWishlist;
       },
     },
 
@@ -77,7 +110,7 @@ const Mutation = new GraphQLObjectType({
         itemDescription: { type: GraphQLString },
         priority: { type: GraphQLInt },
         targetAmount: { type: GraphQLFloat },
-        currentAmount: { type: GraphQLFloat },
+        isComplete: { type: GraphQLBoolean },
       },
       async resolve(parent, args, req) {
         const newWishlist = await Wishlist.findByIdAndUpdate(args.id, {
@@ -86,7 +119,7 @@ const Mutation = new GraphQLObjectType({
           itemDescription: args.itemDescription,
           priority: args.priority,
           targetAmount: args.targetAmount,
-          currentAmount: args.currentAmount
+          isComplete: args.isComplete
         });
 
         return newWishlist;
