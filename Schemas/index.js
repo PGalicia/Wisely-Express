@@ -120,7 +120,7 @@ const Mutation = new GraphQLObjectType({
           priority: args.priority,
           targetAmount: args.targetAmount,
           isComplete: args.isComplete
-        });
+        }, { new: true });
 
         return newWishlist;
       },
