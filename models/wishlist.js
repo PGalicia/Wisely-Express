@@ -13,15 +13,16 @@ const wishlistSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  // @TODO: Might need to limit this to specific numbers (maybe 1 - 5)
   priority: {
     type: Number,
     default: 3,
+    min: [1, 'Priority must be at least 1'],
+    max: [5, 'Priority must be at most 5'], 
   },
-  // @TODO: For the following two below, I should try to make it not have a negative number
   targetAmount: {
     type: Number,
     required: true,
+    min: [0, 'Target amount cannot be negative']
   },
   isComplete: {
     type: Boolean,
