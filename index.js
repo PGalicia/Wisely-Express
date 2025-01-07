@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -7,7 +8,7 @@ const { graphqlHTTP } = require("express-graphql");
 const schema = require("./Schemas");
 
 mongoose
-  .connect("mongodb://127.0.0.1/Wisely")
+  .connect(process.env.ATLAS_URI)
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB..."));
 
