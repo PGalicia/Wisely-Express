@@ -3,9 +3,10 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require('cors');
-const PORT = 5000;
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./Schemas");
+
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(process.env.ATLAS_URI)
@@ -24,6 +25,7 @@ app.use(
   })
 );
 
-app.listen(PORT, () => {
-  console.log("Server running");
+// Ensure the app binds to all network interfaces
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
