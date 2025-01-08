@@ -6,9 +6,7 @@ const cors = require('cors');
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./Schemas");
 
-const PORT = process.env.PORT || 8080;
-
-console.log('process.env.ATLAS_URI', process.env.ATLAS_URI);
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(process.env.ATLAS_URI)
@@ -27,31 +25,11 @@ app.use(
   })
 );
 
-// Ensure the app binds to all network interfaces
-// const express = require("express");
-// const app = express();
-// const PORT = process.env.PORT || 8080;
-// Define a route for the homepage
 app.get("/", (req, res) => {
-  res.send("Express: Hello, Elastic Beanstalk!");
+  res.send("Hello World");
 });
 
 // Start the server and bind to all network interfaces
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-// const http = require('node:http');
-
-// const hostname = '127.0.0.1';
-// const port = 8080;
-
-// const server = http.createServer((req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader('Content-Type', 'text/plain');
-//   res.end('Hello Elastic Beanstalk!\n');
-// });
-
-// server.listen(port, hostname, () => {
-//   console.log(`Server running at http://${hostname}:${port}/`);
-// });
