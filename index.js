@@ -10,10 +10,10 @@ const PORT = process.env.PORT || 8080;
 
 console.log('process.env.ATLAS_URI', process.env.ATLAS_URI);
 
-// mongoose
-//   .connect(process.env.ATLAS_URI)
-//   .then(() => console.log("Connected to MongoDB..."))
-//   .catch((err) => console.error("Could not connect to MongoDB...", err));
+mongoose
+  .connect(process.env.ATLAS_URI)
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch((err) => console.error("Could not connect to MongoDB...", err));
 
 // app.use(cors({
 //   origin: process.env.CORS_ORIGIN
