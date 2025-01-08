@@ -15,17 +15,17 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
-// app.use(cors({
-//   origin: process.env.CORS_ORIGIN
-// }));
+app.use(cors({
+  origin: process.env.CORS_ORIGIN
+}));
 
-// app.use(
-//   "/graphql",
-//   graphqlHTTP({
-//     schema,
-//     graphiql: true,
-//   })
-// );
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+  })
+);
 
 // Ensure the app binds to all network interfaces
 // const express = require("express");
