@@ -28,21 +28,30 @@ console.log('process.env.ATLAS_URI', process.env.ATLAS_URI);
 // );
 
 // Ensure the app binds to all network interfaces
-// app.listen(PORT, '127.0.0.1', () => {
-//   console.log(`Server running on port ${PORT}`);
+// const express = require("express");
+// const app = express();
+// const PORT = process.env.PORT || 8080;
+// Define a route for the homepage
+app.get("/", (req, res) => {
+  res.send("Express: Hello, Elastic Beanstalk!");
+});
+
+// Start the server and bind to all network interfaces
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// const http = require('node:http');
+
+// const hostname = '127.0.0.1';
+// const port = 8080;
+
+// const server = http.createServer((req, res) => {
+//   res.statusCode = 200;
+//   res.setHeader('Content-Type', 'text/plain');
+//   res.end('Hello Elastic Beanstalk!\n');
 // });
 
-const http = require('node:http');
-
-const hostname = '127.0.0.1';
-const port = 8080;
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello Elastic Beanstalk!\n');
-});
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+// server.listen(port, hostname, () => {
+//   console.log(`Server running at http://${hostname}:${port}/`);
+// });
