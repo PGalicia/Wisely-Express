@@ -8,22 +8,24 @@ const schema = require("./Schemas");
 
 const PORT = process.env.PORT || 5000;
 
-mongoose
-  .connect(process.env.ATLAS_URI)
-  .then(() => console.log("Connected to MongoDB..."))
-  .catch((err) => console.error("Could not connect to MongoDB...", err));
+console.log('process.env.ATLAS_URI', process.env.ATLAS_URI);
 
-app.use(cors({
-  origin: process.env.CORS_ORIGIN
-}));
+// mongoose
+//   .connect(process.env.ATLAS_URI)
+//   .then(() => console.log("Connected to MongoDB..."))
+//   .catch((err) => console.error("Could not connect to MongoDB...", err));
 
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    graphiql: true,
-  })
-);
+// app.use(cors({
+//   origin: process.env.CORS_ORIGIN
+// }));
+
+// app.use(
+//   "/graphql",
+//   graphqlHTTP({
+//     schema,
+//     graphiql: true,
+//   })
+// );
 
 // Ensure the app binds to all network interfaces
 app.listen(PORT, '0.0.0.0', () => {
