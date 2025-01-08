@@ -3,3 +3,7 @@ node_modules/
 
 # env files (can opt-in for committing if needed)
 .env*
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

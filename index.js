@@ -13,7 +13,7 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB..."));
 
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: process.env.CORS_ORIGIN
 }));
 
 app.use(
